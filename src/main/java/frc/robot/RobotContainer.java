@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.Button;
@@ -14,8 +15,12 @@ import frc.robot.commands.IntakeDown;
 import frc.robot.commands.IntakeIn;
 import frc.robot.commands.IntakeOut;
 import frc.robot.commands.IntakeUp;
-import frc.robot.commands.ShooterDown;
+import frc.robot.commands.MoveShooterDown;
 import frc.robot.commands.MoveShooterUp;
+import frc.robot.commands.MoveUpStorage;
+import frc.robot.commands.StartUpShooter;
+import frc.robot.commands.StopShooter;
+import frc.robot.commands.StopStorage;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Intake;
@@ -31,11 +36,25 @@ public class RobotContainer {
 
   private final PowerDistributionPanel pdp = new PowerDistributionPanel();
   private final XboxController driverController = new XboxController(0);
-  private final XboxController operatorContoller = new XboxController(1);
+  private final XboxController operatorController = new XboxController(1);
   private final CommandBase m_autonomousCommand = new Autonomous(m_drive).withTimeout(5);
 
 public RobotContainer() {
-    configureButtonBindings();
+ 
+  SmartDashboard.putData("intake In", new IntakeIn(m_intake));
+  SmartDashboard.putData("intake Out", new IntakeOut(m_intake));
+  SmartDashboard.putData("intake Up", new IntakeUp(m_intake));
+  SmartDashboard.putData("intake Down", new IntakeDown(m_intake));
+  SmartDashboard.putData("Move Shooter Up", new MoveShooterUp(m_shooter));
+  SmartDashboard.putData("Move Shooter Down", new MoveShooterUp(m_shooter)); 
+  SmartDashboard.putData("Start Shooter", new StartUpShooter(m_shooter));
+  SmartDashboard.putData("Stop Shooter", new StopShooter(m_shooter));
+  SmartDashboard.putData("Move Up Storage", new MoveUpStorage(m_storage));
+  SmartDashboard.putData("Stop Storage", new StopStorage(m_storage));
+  
+  
+  
+  configureButtonBindings();
     m_drive.setDefaultCommand(new ArcadeDrive(() -> driverController.getTriggerAxis(GenericHID.Hand.kLeft),
       () -> driverController.getTriggerAxis(GenericHID.Hand.kRight), m_drive));
 }
@@ -45,20 +64,28 @@ public RobotContainer() {
  */
 public void configureButtonBindings() {
 
-  final JoystickButton operatorA = new JoystickButton(operatorContoller, XboxController.Button.kA.value);
-  final JoystickButton operatorB = new JoystickButton(operatorContoller, XboxController.Button.kB.value);
-  final JoystickButton operatorX = new JoystickButton(operatorContoller, XboxController.Button.kX.value);
-  final JoystickButton operatorY = new JoystickButton(operatorContoller, XboxController.Button.kY.value);
-  final JoystickButton operatorRightBumper = new JoystickButton(operatorContoller, XboxController.Button.kBumperRight.value);
-  final JoystickButton oepratorLeftBumper = new JoystickButton(operatorContoller, XboxController.Button.kBumperLeft.value);
-
+  final JoystickButton operatorA = new JoystickButton(operatorController, XboxController.Button.kA.value);
+  final JoystickButton operatorB = new JoystickButton(operatorController, XboxController.Button.kB.value);
+  final JoystickButton operatorX = new JoystickButton(operatorController, XboxController.Button.kX.value);
+  final JoystickButton operatorY = new JoystickButton(operatorController, XboxController.Button.kY.value);
+  final JoystickButton operatorRightBumper = new JoystickButton(operatorController, XboxController.Button.kBumperRight.value);
+  final JoystickButton oepratorLeftBumper = new JoystickButton(operatorController, XboxController.Button.kBumperLeft.value);
+  final JoystickButton operatorStarButton = new JoystickButton(operatorController, XboxController.Button.kStart.value);
+  final JoystickButton operatorBaButton = new JoystickButton(operatorController, XboxController.Button.kBack.value);
+  final JoystickButton operatorLeftStick = new JoystickButton(operatorController, XboxController.Button.kStickLeft.value);
+  final JoystickButton operatorRightStick = new JoystickButton(operatorController, XboxController.Button.kStickRight.value);
 
   operatorA.whenPressed(new IntakeIn(m_intake));
   operatorB.whenPressed(new IntakeOut(m_intake));
   operatorX.whenPressed(new IntakeDown(m_intake));
   operatorY.whenPressed(new IntakeUp(m_intake));
   operatorRightBumper.whenPressed(new MoveShooterUp(m_shooter));
-  oepratorLeftBumper.whenPressed(new ShooterDown(m_shooter));
+  oepratorLeftBumper.whenPressed(new MoveShooterDown(m_shooter));
+  operatorStarButton.whenPressed(new MoveUpStorage(m_storage));
+  operatorBaButton.whenPressed(new StopStorage(m_storage));
+  operatorLeftStick.whenPressed(new StopShooter(m_shooter));
+  operatorRightStick.whenPressed(new StartUpShooter(m_shooter));
+
 }
 
 public void shuffleBoard(){
