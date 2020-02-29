@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.Button;
@@ -16,6 +17,7 @@ import frc.robot.commands.IntakeOut;
 import frc.robot.commands.IntakeUp;
 import frc.robot.commands.ShooterDown;
 import frc.robot.commands.MoveShooterUp;
+import frc.robot.commands.ShootBall;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Intake;
@@ -35,7 +37,19 @@ public class RobotContainer {
   private final CommandBase m_autonomousCommand = new Autonomous(m_drive).withTimeout(5);
 
 public RobotContainer() {
-    configureButtonBindings();
+ 
+  SmartDashboard.putData("intake In", new IntakeIn(m_intake));
+  SmartDashboard.putData("intake Out", new IntakeOut(m_intake));
+  SmartDashboard.putData("intake Up", new IntakeUp(m_intake));
+  SmartDashboard.putData("intake Down", new IntakeDown(m_intake));
+  SmartDashboard.putData("Move Shooter Up", new MoveShooterUp(m_shooter));
+  SmartDashboard.putData("Move Shooter Down", new MoveShooterUp(m_shooter)); 
+  SmartDashboard.putData("Start Shooter", new ShootBall(m_shooter));
+  
+  
+  
+  
+  configureButtonBindings();
     m_drive.setDefaultCommand(new ArcadeDrive(() -> driverController.getTriggerAxis(GenericHID.Hand.kLeft),
       () -> driverController.getTriggerAxis(GenericHID.Hand.kRight), m_drive));
 }
