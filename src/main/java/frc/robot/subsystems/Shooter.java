@@ -59,5 +59,10 @@ public Shooter (){
   public void runShooter(Double speed){
     shooterInsideLeft.set(ControlMode.PercentOutput, speed);
     shooterInsideRight.set(ControlMode.PercentOutput, speed);
-  } 
+  }
+
+  public void stopShooter(){
+    shooterInsideLeft.set(ControlMode.PercentOutput, 0);
+    shooterInsideRight.set(ControlMode.PercentOutput, 0);
+  }
 }

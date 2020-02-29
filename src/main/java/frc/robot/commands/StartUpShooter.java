@@ -10,13 +10,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 
-public class ShootBall extends CommandBase {
+public class StartUpShooter extends CommandBase {
   private final Shooter m_Shooter;
 
   /**
    * Creates a new Shoot.
    */
-  public ShootBall(Shooter shooter) {
+  public StartUpShooter(Shooter shooter) {
     m_Shooter = shooter;
 
     // Use addRequirements() here to declare subsystem dependencies.
