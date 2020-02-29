@@ -17,21 +17,60 @@ public class Intake extends SubsystemBase {
    */
   private final Spark intake = new Spark(0);
   private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(0, 1);
-   public Intake() {
 
+   public Intake() {
   }
+
+  /**
+   * This moves the intake mechanism up, towards the robot
+   */
   public void moveUp () {
+    intakeSolenoid.set(DoubleSolenoid.Value.kForward);
+    //moveUp = true;
   }
   
+  /**
+   * This moves the intake mechanism down, towards the floor
+   */
   public void moveDown () {
+    intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
+    //moveUp = false;
   }
 
-  public void rotateIn () {
+  /**
+   * This moves the motors so the ball goes into the robot at full speed
+   */
+  public void rotateIn() {
+    intake.set(-1);
   }
 
-  public void rotateOut () {
+  /**
+   * This moves the motors so the ball goes out of the robot at full speed
+   */
+  public void rotateOut() {
+    intake.set(1);
   }
 
+  /**
+   * This stops the motors from moving
+   */
   public void rotateStop () {
+    intake.stopMotor();
+  }
+
+  /**
+   * This moves the motors so the ball goes into the robot at a specific speed
+   * @param speed
+   */
+  public void rotateIn(Double speed){
+    intake.set(speed);
+  }
+
+  /**
+   * This moves the motors so the ball goes out of the robot at a specific speed
+   * @param speed
+   */
+  public void rotateOut(Double speed){
+    intake.set(speed);
   }
 }

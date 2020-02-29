@@ -19,13 +19,21 @@ public class Climber extends SubsystemBase {
   static Spark climberRight = new Spark(4);
   static Spark climberSmall = new Spark(5);
   private final DoubleSolenoid climberSolenoid = new DoubleSolenoid(6, 7);
-   public Climber() {
 
-  }
+  public Climber() {
 
-  public void extend() {
+}
+/**
+ * This elongates the elevator to hook onto the bar
+ */
+public void extend() {
+  climberSolenoid.set(DoubleSolenoid.Value.kForward);
   }
   
+  /**
+   * This shrinks the elevator to lift the robot
+   */
   public void unextend() {
+    climberSolenoid.set(DoubleSolenoid.Value.kReverse);
   }
 }

@@ -8,7 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 
 public class Storage extends SubsystemBase {
@@ -17,12 +17,46 @@ public class Storage extends SubsystemBase {
    */
   private final Spark storageLeft = new Spark(1);
   private final Spark storageRight = new Spark(2);
-  private final DoubleSolenoid flapperSolenoid = new DoubleSolenoid(2, 3);
-   public Storage() {
+  private final DigitalInput intakeInput = new DigitalInput(0);
+  private final DigitalInput shooterInput = new DigitalInput(1);
 
+   public Storage() {
+    
   }
 
-  @Override
-  public void() {
-  
+  /**
+   * This moves the ball further into the storage system
+   */
+  public void turnIn(){
+    storageRight.set(-1);
+    storageLeft.set(-1);
+  }
+
+  /**
+   * This moves the ball out of the storage system
+   */
+  public void turnOut(){
+    storageRight.set(1);
+    storageLeft.set(1);
+  }
+
+  /**
+   * This is for PhotoEyes to know where the ball is to make sure that we can shoot the ball
+   */
+  public void ballAtShooter(){
+    shooterInput.get();
+  }
+
+  /**
+   * This is for PhotoEyes to know where the ball is so we can continue moving the ball into the storage system
+   */
+  public void ballAtIntake(){
+    intakeInput.get();
+  }
+
+  public void storageStop(){
+    storageRight.stopMotor();
+    storageLeft.stopMotor();
+  }
+
 }

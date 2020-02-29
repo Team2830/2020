@@ -1,13 +1,21 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.Autonomous;
+import frc.robot.commands.IntakeDown;
+import frc.robot.commands.IntakeIn;
+import frc.robot.commands.IntakeOut;
+import frc.robot.commands.IntakeUp;
+import frc.robot.commands.ShooterDown;
+import frc.robot.commands.MoveShooterUp;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Intake;
@@ -32,16 +40,29 @@ public RobotContainer() {
       () -> driverController.getTriggerAxis(GenericHID.Hand.kRight), m_drive));
 }
 
-public <Button> void configureButtonBindings() {
-  final JoystickButton a = new JoystickButton(operatorContoller, XboxController.Button.kA.value);
-  final JoystickButton b = new JoystickButton(operatorContoller, XboxController.Button.kB.value);
-  final JoystickButton x = new JoystickButton(operatorContoller, XboxController.Button.kX.value);
-  final JoystickButton y = new JoystickButton(operatorContoller, XboxController.Button.kY.value);
+/**
+ * This tells what buttons are being used for which commands
+ */
+public void configureButtonBindings() {
 
-  a.whenPressed(new Autonomous(m_drive).withTimeout(5));
-  b.whenPressed(new Autonomous(m_drive).withTimeout(5));
-  x.whenPressed(new Autonomous(m_drive).withTimeout(5));
-  y.whenPressed(new Autonomous(m_drive).withTimeout(5));
+  final JoystickButton operatorA = new JoystickButton(operatorContoller, XboxController.Button.kA.value);
+  final JoystickButton operatorB = new JoystickButton(operatorContoller, XboxController.Button.kB.value);
+  final JoystickButton operatorX = new JoystickButton(operatorContoller, XboxController.Button.kX.value);
+  final JoystickButton operatorY = new JoystickButton(operatorContoller, XboxController.Button.kY.value);
+  final JoystickButton operatorRightBumper = new JoystickButton(operatorContoller, XboxController.Button.kBumperRight.value);
+  final JoystickButton oepratorLeftBumper = new JoystickButton(operatorContoller, XboxController.Button.kBumperLeft.value);
+
+
+  operatorA.whenPressed(new IntakeIn(m_intake));
+  operatorB.whenPressed(new IntakeOut(m_intake));
+  operatorX.whenPressed(new IntakeDown(m_intake));
+  operatorY.whenPressed(new IntakeUp(m_intake));
+  operatorRightBumper.whenPressed(new MoveShooterUp(m_shooter));
+  oepratorLeftBumper.whenPressed(new ShooterDown(m_shooter));
+}
+
+public void shuffleBoard(){
+
 }
 
   /**

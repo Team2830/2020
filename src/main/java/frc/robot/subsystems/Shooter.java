@@ -8,31 +8,56 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class Shooter extends SubsystemBase {
   /**
    * Creates a new Shooter.
    */ 
-static TalonSRX shooterOutsideLeft = new TalonSRX(0);
+static VictorSPX shooterOutsideLeft = new VictorSPX(0);
 static TalonSRX shooterInsideLeft = new TalonSRX(1);
-static TalonSRX shooterOutsideRight = new TalonSRX(2);
+static VictorSPX shooterOutsideRight = new VictorSPX(2);
 static TalonSRX shooterInsideRight = new TalonSRX(3);
 private final DoubleSolenoid shooterSolenoid = new DoubleSolenoid(4, 5);
-   public Shooter() {
 
-  }
-
-  public void start() {
-  }
-
-  public void stop(){
-  }
-
+public Shooter (){
+  shooterOutsideLeft.follow(shooterInsideLeft);
+  shooterOutsideRight.follow(shooterInsideRight);
+  //This has the Victors follow the Talons
+}
+  /**
+   * This raises the shooter
+   */
   public void up() {
+    shooterSolenoid.set(DoubleSolenoid.Value.kForward);
   }
 
+  /**
+   * This lowers the shooter
+   */
   public void down() {
+    shooterSolenoid.set(DoubleSolenoid.Value.kReverse);
   }
+
+  /**
+   * This will have the motors run full speed
+   **/
+  public void runShooter() {
+    shooterInsideLeft.set(ControlMode.PercentOutput, 1);
+    shooterInsideRight.set(ControlMode.PercentOutput,1);
+  }
+
+  /**
+   * This will have the motors run at a specific speed
+   * @param speed
+   */
+  public void runShooter(Double speed){
+    shooterInsideLeft.set(ControlMode.PercentOutput, speed);
+    shooterInsideRight.set(ControlMode.PercentOutput, speed);
+  } 
 }
