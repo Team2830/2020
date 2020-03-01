@@ -8,7 +8,7 @@
 package frc.robot;
 
 /**
- * Add your docs here.
+ * The constants for the different robot subsystems
  */
 public final class Constants {
     public static final class DriveConstants {
@@ -25,22 +25,24 @@ public final class Constants {
     public static final class StorageConstants {
         public static final int kStorageLeft = 1;
         public static final int kStorageRight = 2;
-        public static final int kFlapperSolenoid3 = 2;
-        public static final int kFlapperSolenoid4 = 3;
+        public static final int kFlapperSolenoid1 = 2;
+        public static final int kFlapperSolenoid2 = 3;
+        public static int kPhotoEye1 = 0;
+        public static int kPhotoEye2 = 1;
     }
     public static final class ShooterConstants{
         public static final int kOutsideMotorLeftPort = 0;
         public static final int kInsideMotorLeftPort = 1;
         public static final int kOutsideMotorRightPort = 2;
         public static final int kInsideMotorRighttPort = 3;
-        public static final int kShooterSolenoid5 = 4;
-        public static final int kShooterSolenoid6 = 5;
+        public static final int kShooterSolenoid1 = 4;
+        public static final int kShooterSolenoid2 = 5;
     }
-    public static final class ClimberConstant{
+    public static final class ClimberConstants{
         public static final int kClimberMotorLeft = 3;
         public static final int kClimberMotorRight = 4;
         public static final int kClimberMotorSmall = 5;
-        public static final int kClimberSolenoid7 = 6;
-        public static final int kClimberSolenoid8 = 7;
+        public static final int kClimberSolenoid1 = 6;
+        public static final int kClimberSolenoid2 = 7;
     }
 }

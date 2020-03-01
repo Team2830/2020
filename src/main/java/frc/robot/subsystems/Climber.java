@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import static frc.robot.Constants.ClimberConstants;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Spark;
 
@@ -15,10 +16,10 @@ public class Climber extends SubsystemBase {
   /**
    * Creates a new Climber.
    */
-  static Spark climberLeft = new Spark(3);
-  static Spark climberRight = new Spark(4);
-  static Spark climberSmall = new Spark(5);
-  private final DoubleSolenoid climberSolenoid = new DoubleSolenoid(6, 7);
+  static Spark climberLeft = new Spark(ClimberConstants.kClimberMotorLeft);
+  static Spark climberRight = new Spark(ClimberConstants.kClimberMotorRight);
+  static Spark climberSmall = new Spark(ClimberConstants.kClimberMotorSmall);
+  private final DoubleSolenoid climberSolenoid = new DoubleSolenoid(ClimberConstants.kClimberSolenoid1, ClimberConstants.kClimberSolenoid2);
 
   public Climber() {
 
