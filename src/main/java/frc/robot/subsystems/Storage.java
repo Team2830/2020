@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import static frc.robot.Constants.StorageConstants;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 
@@ -15,10 +16,10 @@ public class Storage extends SubsystemBase {
   /**
    * Creates a new Storage.
    */
-  private final Spark storageLeft = new Spark(1);
-  private final Spark storageRight = new Spark(2);
-  private final DigitalInput intakeInput = new DigitalInput(0);
-  private final DigitalInput shooterInput = new DigitalInput(1);
+  private final Spark storageLeft = new Spark(StorageConstants.kStorageLeft);
+  private final Spark storageRight = new Spark(StorageConstants.kStorageRight);
+  private final DigitalInput intakeInput = new DigitalInput(StorageConstants.kPhotoEye1);
+  private final DigitalInput shooterInput = new DigitalInput(StorageConstants.kPhotoEye2);
 
    public Storage() {
     

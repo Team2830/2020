@@ -8,10 +8,12 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import static frc.robot.Constants.ShooterConstants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
@@ -19,11 +21,11 @@ public class Shooter extends SubsystemBase {
   /**
    * Creates a new Shooter.
    */ 
-static VictorSPX shooterOutsideLeft = new VictorSPX(0);
-static TalonSRX shooterInsideLeft = new TalonSRX(1);
-static VictorSPX shooterOutsideRight = new VictorSPX(2);
-static TalonSRX shooterInsideRight = new TalonSRX(3);
-private final DoubleSolenoid shooterSolenoid = new DoubleSolenoid(4, 5);
+static VictorSPX shooterOutsideLeft = new VictorSPX(ShooterConstants.kOutsideMotorLeftPort);
+static TalonSRX shooterInsideLeft = new TalonSRX(ShooterConstants.kInsideMotorLeftPort);
+static VictorSPX shooterOutsideRight = new VictorSPX(ShooterConstants.kOutsideMotorRightPort);
+static TalonSRX shooterInsideRight = new TalonSRX(ShooterConstants.kInsideMotorRighttPort);
+private final DoubleSolenoid shooterSolenoid = new DoubleSolenoid(ShooterConstants.kShooterSolenoid1, ShooterConstants.kShooterSolenoid2);
 
 public Shooter (){
   shooterOutsideLeft.follow(shooterInsideLeft);
