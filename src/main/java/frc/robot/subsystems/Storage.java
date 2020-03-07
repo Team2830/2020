@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.StorageConstants;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Storage extends SubsystemBase {
   /**
@@ -61,4 +62,8 @@ public class Storage extends SubsystemBase {
     storageLeft.stopMotor();
   }
 
+  public void periodic(){
+    SmartDashboard.putBoolean("intakeInput", intakeInput.get());
+    SmartDashboard.putBoolean("shooterInput", shooterInput.get());
+  }
 }

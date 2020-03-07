@@ -7,17 +7,25 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 
 public class StartUpShooter extends CommandBase {
   private final Shooter m_Shooter;
+  private final Double m_frontSpeed;
+  private final Double m_backSpeed;
 
   /**
    * Creates a new Shoot.
    */
-  public StartUpShooter(Shooter shooter) {
+  public StartUpShooter(double front, double back, Shooter shooter) {
     m_Shooter = shooter;
+    m_frontSpeed = front;
+    m_backSpeed = back;
+
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_Shooter);
@@ -32,6 +40,7 @@ public class StartUpShooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_Shooter.runShooter(SmartDashboard.getNumber("Shooter Front", 0), SmartDashboard.getNumber("Shooter Back", 0));
   }
 
   // Called once the command ends or is interrupted.

@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -43,7 +44,8 @@ public class RobotContainer {
   private final CommandBase m_autonomousCommand = new Autonomous(m_drive).withTimeout(5);
 
 public RobotContainer() {
- 
+  SmartDashboard.putNumber("Shooter Front", 0);
+  SmartDashboard.putNumber("Shooter Back", 0);
   SmartDashboard.putData("intake In", new InstantCommand(m_intake::rotateIn, m_intake));
   SmartDashboard.putData("intake Out", new InstantCommand(m_intake::rotateOut, m_intake));
   SmartDashboard.putData("intake Up", new InstantCommand(m_intake::moveUp, m_intake));
@@ -51,7 +53,8 @@ public RobotContainer() {
   SmartDashboard.putData("intake Stop", new InstantCommand(m_intake::rotateStop, m_intake));
   SmartDashboard.putData("Move Shooter Up", new MoveShooterUp(m_shooter));
   SmartDashboard.putData("Move Shooter Down", new MoveShooterDown(m_shooter)); 
-  SmartDashboard.putData("Start Shooter", new InstantCommand(m_shooter::runShooter, m_shooter));
+  //SmartDashboard.putData("Start Shooter", new InstantCommand(m_shooter::runShooter, m_shooter));
+  SmartDashboard.putData("Start Shooter", new StartUpShooter(SmartDashboard.getNumber("Shooter Front", 0), SmartDashboard.getNumber("Shooter Back", 0), m_shooter));
   SmartDashboard.putData("Stop Shooter", new InstantCommand(m_shooter::stopShooter,m_shooter));
   SmartDashboard.putData("Turn In Storage", new InstantCommand(m_storage::turnIn, m_storage));
   SmartDashboard.putData("Stop Storage", new InstantCommand(m_storage::storageStop, m_storage));
@@ -94,7 +97,7 @@ public void configureButtonBindings() {
   operatorBaButton.whenPressed(new StopStorage(m_storage));
 
   operatorLeftStick.whenPressed(new StopShooter(m_shooter));
-  operatorRightStick.whenPressed(new StartUpShooter(m_shooter));
+ //operatorRightStick.whenPressed(new StartUpShooter(m_shooter));
 
 }
 

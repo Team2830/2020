@@ -77,4 +77,8 @@ public Shooter (){
     frontMotor.set(ControlMode.PercentOutput, 0);
     backMotor.set(ControlMode.PercentOutput, 0);
   }
+public void runShooter(double front, double back) {
+  frontMotor.set(ControlMode.PercentOutput, front);
+  backMotor.set(ControlMode.PercentOutput, back);
+}
 }
