@@ -60,9 +60,9 @@ public RobotContainer() {
   
   
   configureButtonBindings();
-   /** m_drive.setDefaultCommand(new SplitArcadeDrive(() -> driverController.getTriggerAxis(GenericHID.Hand.kLeft),
-         () -> driverController.getTriggerAxis(GenericHID.Hand.kRight), () -> driverController.getX(GenericHID.Hand.kLeft), m_drive));**/
-     m_drive.setDefaultCommand(new TankDrive(() -> driverController.getY(GenericHID.Hand.kLeft), () -> driverController.getY(GenericHID.Hand.kRight), m_drive));
+    m_drive.setDefaultCommand(new SplitArcadeDrive(() -> driverController.getTriggerAxis(GenericHID.Hand.kLeft),
+         () -> driverController.getTriggerAxis(GenericHID.Hand.kRight), () -> driverController.getX(GenericHID.Hand.kLeft), m_drive));
+    //m_drive.setDefaultCommand(new TankDrive(() -> driverController.getY(GenericHID.Hand.kLeft), () -> driverController.getY(GenericHID.Hand.kRight), m_drive));
     
 }
 
