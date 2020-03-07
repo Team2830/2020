@@ -60,8 +60,8 @@ public Shooter (){
    * This will have the motors run full speed
    **/
   public void runShooter() {
-    frontMotor.set(ControlMode.PercentOutput, .4);
-    backMotor.set(ControlMode.PercentOutput, .4);
+    frontMotor.set(ControlMode.PercentOutput, .9);
+    backMotor.set(ControlMode.PercentOutput, .9);
   }
 
   /**

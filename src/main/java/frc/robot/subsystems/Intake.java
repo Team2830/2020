@@ -27,7 +27,7 @@ public class Intake extends SubsystemBase {
    * This moves the intake mechanism up, towards the robot
    */
   public void moveUp () {
-    intakeSolenoid.set(DoubleSolenoid.Value.kForward);
+    intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
     //moveUp = true;
   }
   
@@ -35,7 +35,7 @@ public class Intake extends SubsystemBase {
    * This moves the intake mechanism down, towards the floor
    */
   public void moveDown () {
-    intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
+    intakeSolenoid.set(DoubleSolenoid.Value.kForward);
     //moveUp = false;
   }
 
@@ -43,14 +43,14 @@ public class Intake extends SubsystemBase {
    * This moves the motors so the ball goes into the robot at full speed
    */
   public void rotateIn() {
-    intake.set(-1);
+    intake.set(-.6);
   }
 
   /**
    * This moves the motors so the ball goes out of the robot at full speed
    */
   public void rotateOut() {
-    intake.set(1);
+    intake.set(.6);
   }
 
   /**

@@ -30,8 +30,8 @@ public class Storage extends SubsystemBase {
    * This moves the ball further into the storage system
    */
   public void turnIn(){
-    storageRight.set(-.8);
-    storageLeft.set(-.8);
+    storageRight.set(-1);
+    storageLeft.set(-1);
   }
 
   /**

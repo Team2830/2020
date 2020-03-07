@@ -50,7 +50,7 @@ public RobotContainer() {
   SmartDashboard.putData("intake Down", new InstantCommand(m_intake::moveDown, m_intake));
   SmartDashboard.putData("intake Stop", new InstantCommand(m_intake::rotateStop, m_intake));
   SmartDashboard.putData("Move Shooter Up", new MoveShooterUp(m_shooter));
-  SmartDashboard.putData("Move Shooter Down", new MoveShooterUp(m_shooter)); 
+  SmartDashboard.putData("Move Shooter Down", new MoveShooterDown(m_shooter)); 
   SmartDashboard.putData("Start Shooter", new InstantCommand(m_shooter::runShooter, m_shooter));
   SmartDashboard.putData("Stop Shooter", new InstantCommand(m_shooter::stopShooter,m_shooter));
   SmartDashboard.putData("Turn In Storage", new InstantCommand(m_storage::turnIn, m_storage));
