@@ -41,6 +41,9 @@ public class Drive extends SubsystemBase {
     m_RightFollowerMotor.configFactoryDefault();
     m_LeftMotor.configFactoryDefault();
     m_LeftFollowerMotor.configFactoryDefault();
+    
+    m_LeftFollowerMotor.follow(m_LeftMotor);
+    m_RightFollowerMotor.follow(m_RightMotor);
 
     m_RightMotor.setInverted(TalonFXInvertType.CounterClockwise);
     m_LeftMotor.setInverted(TalonFXInvertType.Clockwise);
@@ -48,9 +51,7 @@ public class Drive extends SubsystemBase {
     m_RightFollowerMotor.setInverted(InvertType.FollowMaster);
     m_LeftFollowerMotor.setInverted(InvertType.FollowMaster);
 
-    m_LeftFollowerMotor.follow(m_LeftMotor);
-    m_RightFollowerMotor.follow(m_RightMotor);
-    m_robotDrive.setRightSideInverted(true);
+    m_robotDrive.setRightSideInverted(false);
   
   }
 
