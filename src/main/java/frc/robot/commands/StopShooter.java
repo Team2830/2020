@@ -23,12 +23,12 @@ public class StopShooter extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_Shooter.stopShooter();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Shooter.stopShooter();
   }
 
   // Called once the command ends or is interrupted.

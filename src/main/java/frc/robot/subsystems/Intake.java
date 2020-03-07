@@ -20,6 +20,7 @@ public class Intake extends SubsystemBase {
   private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(IntakeConstants.kIntakeSolenoid1, IntakeConstants.kIntakeSolenooid2);
 
    public Intake() {
+     intake.setInverted(true);
   }
 
   /**

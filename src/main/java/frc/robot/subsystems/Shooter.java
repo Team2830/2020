@@ -21,15 +21,25 @@ public class Shooter extends SubsystemBase {
   /**
    * Creates a new Shooter.
    */ 
-static VictorSPX shooterOutsideLeft = new VictorSPX(ShooterConstants.kOutsideMotorLeftPort);
-static TalonSRX shooterInsideLeft = new TalonSRX(ShooterConstants.kInsideMotorLeftPort);
-static VictorSPX shooterOutsideRight = new VictorSPX(ShooterConstants.kOutsideMotorRightPort);
-static TalonSRX shooterInsideRight = new TalonSRX(ShooterConstants.kInsideMotorRighttPort);
+static VictorSPX frontFollowerMotor = new VictorSPX(ShooterConstants.kFrontFollowerMotorPort);
+static TalonSRX frontMotor = new TalonSRX(ShooterConstants.kFrontMotorPort);
+static VictorSPX backFollowerMotor = new VictorSPX(ShooterConstants.kBackFollowerMotorPort);
+static TalonSRX backMotor = new TalonSRX(ShooterConstants.kBackMotorPort);
 private final DoubleSolenoid shooterSolenoid = new DoubleSolenoid(ShooterConstants.kShooterSolenoid1, ShooterConstants.kShooterSolenoid2);
 
 public Shooter (){
-  shooterOutsideLeft.follow(shooterInsideLeft);
-  shooterOutsideRight.follow(shooterInsideRight);
+  frontMotor.configFactoryDefault();
+  frontFollowerMotor.configFactoryDefault();
+  backMotor.configFactoryDefault();
+  backFollowerMotor.configFactoryDefault();
+
+  frontFollowerMotor.follow(frontMotor);
+  backFollowerMotor.follow(backMotor);
+
+  frontMotor.setInverted(false);
+  frontFollowerMotor.setInverted(true);
+  backMotor.setInverted(true);
+  backFollowerMotor.setInverted(true);
   //This has the Victors follow the Talons
 }
   /**
@@ -50,8 +60,8 @@ public Shooter (){
    * This will have the motors run full speed
    **/
   public void runShooter() {
-    shooterInsideLeft.set(ControlMode.PercentOutput, 1);
-    shooterInsideRight.set(ControlMode.PercentOutput,1);
+    frontMotor.set(ControlMode.PercentOutput, .4);
+    backMotor.set(ControlMode.PercentOutput, .4);
   }
 
   /**
@@ -59,12 +69,12 @@ public Shooter (){
    * @param speed
    */
   public void runShooter(Double speed){
-    shooterInsideLeft.set(ControlMode.PercentOutput, speed);
-    shooterInsideRight.set(ControlMode.PercentOutput, speed);
+    frontMotor.set(ControlMode.PercentOutput, speed);
+   // backMotor.set(ControlMode.PercentOutput, speed);
   }
 
   public void stopShooter(){
-    shooterInsideLeft.set(ControlMode.PercentOutput, 0);
-    shooterInsideRight.set(ControlMode.PercentOutput, 0);
+    frontMotor.set(ControlMode.PercentOutput, 0);
+    backMotor.set(ControlMode.PercentOutput, 0);
   }
 }

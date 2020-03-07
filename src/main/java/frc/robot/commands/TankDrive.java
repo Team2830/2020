@@ -7,37 +7,41 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Drive;
 
-public class IntakeOut extends CommandBase {
-  private final Intake m_Intake;
+public class TankDrive extends CommandBase {
+  private final Drive m_drive;
+  private final DoubleSupplier m_right;
+  private final DoubleSupplier m_left;
+  
   /**
-   * Creates a new IntakeOut.
+   * Creates a new TankDrive.
    */
-  public IntakeOut(Intake intake) {
-    m_Intake = intake;
-
+  public TankDrive(DoubleSupplier left, DoubleSupplier right, Drive drive) {
+    m_drive = drive;
+    m_left = left;
+    m_right = right;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_Intake);
+    addRequirements(m_drive);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Intake.rotateOut();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   
+    m_drive.driveTank(m_left.getAsDouble(), m_right.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Intake.rotateStop();
   }
 
   // Returns true when the command should end.

@@ -22,15 +22,16 @@ public class Storage extends SubsystemBase {
   private final DigitalInput shooterInput = new DigitalInput(StorageConstants.kPhotoEye2);
 
    public Storage() {
-    
+    storageLeft.setInverted(true);
+    storageRight.setInverted(true);
   }
 
   /**
    * This moves the ball further into the storage system
    */
   public void turnIn(){
-    storageRight.set(-1);
-    storageLeft.set(-1);
+    storageRight.set(-.8);
+    storageLeft.set(-.8);
   }
 
   /**

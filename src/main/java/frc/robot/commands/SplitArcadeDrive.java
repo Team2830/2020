@@ -11,18 +11,21 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import java.util.function.DoubleSupplier;
 import frc.robot.subsystems.Drive;
 
-public class ArcadeDrive extends CommandBase {
+public class SplitArcadeDrive extends CommandBase {
   private final Drive m_drive;
-  private final DoubleSupplier m_throttle;
-  private  final DoubleSupplier m_speed;
+  private final DoubleSupplier m_leftThrottle;
+  private final DoubleSupplier m_rightThrottle;
+  private  final DoubleSupplier m_rotation;
   /**
    * Creates a new ArcadeDrive.
    */
-  public ArcadeDrive(DoubleSupplier throttle, DoubleSupplier speed, Drive drive) {
+  public SplitArcadeDrive(DoubleSupplier leftThrottle, DoubleSupplier rightThrottle, DoubleSupplier rotation, Drive drive) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drive = drive;
-    m_throttle = throttle;
-    m_speed = speed;
+    m_rightThrottle = rightThrottle;
+    m_leftThrottle = leftThrottle;
+    m_rotation = rotation;
+    addRequirements(m_drive);
 
   }
 
@@ -34,13 +37,13 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drive.drive(m_throttle.getAsDouble(), m_speed.getAsDouble());
+    m_drive.drive(m_leftThrottle.getAsDouble(), m_rightThrottle.getAsDouble(), m_rotation.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drive.drive(0, 0);
+    m_drive.stopDrive();
   }
 
   // Returns true when the command should end.

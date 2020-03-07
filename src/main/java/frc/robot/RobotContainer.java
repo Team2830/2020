@@ -7,13 +7,15 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.SplitArcadeDrive;
 import frc.robot.commands.Autonomous;
 import frc.robot.commands.IntakeDown;
 import frc.robot.commands.IntakeIn;
 import frc.robot.commands.IntakeOut;
+import frc.robot.commands.IntakeStop;
 import frc.robot.commands.IntakeUp;
 import frc.robot.commands.MoveShooterDown;
 import frc.robot.commands.MoveShooterUp;
@@ -21,6 +23,7 @@ import frc.robot.commands.MoveUpStorage;
 import frc.robot.commands.StartUpShooter;
 import frc.robot.commands.StopShooter;
 import frc.robot.commands.StopStorage;
+import frc.robot.commands.TankDrive;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Intake;
@@ -34,29 +37,33 @@ public class RobotContainer {
   private final Shooter m_shooter = new Shooter();
   private final Climber m_climber = new Climber();
 
-  private final PowerDistributionPanel pdp = new PowerDistributionPanel();
+ // private final PowerDistributionPanel pdp = new PowerDistributionPanel();
   private final XboxController driverController = new XboxController(0);
   private final XboxController operatorController = new XboxController(1);
   private final CommandBase m_autonomousCommand = new Autonomous(m_drive).withTimeout(5);
 
 public RobotContainer() {
  
-  SmartDashboard.putData("intake In", new IntakeIn(m_intake));
-  SmartDashboard.putData("intake Out", new IntakeOut(m_intake));
-  SmartDashboard.putData("intake Up", new IntakeUp(m_intake));
-  SmartDashboard.putData("intake Down", new IntakeDown(m_intake));
+  SmartDashboard.putData("intake In", new InstantCommand(m_intake::rotateIn, m_intake));
+  SmartDashboard.putData("intake Out", new InstantCommand(m_intake::rotateOut, m_intake));
+  SmartDashboard.putData("intake Up", new InstantCommand(m_intake::moveUp, m_intake));
+  SmartDashboard.putData("intake Down", new InstantCommand(m_intake::moveDown, m_intake));
+  SmartDashboard.putData("intake Stop", new InstantCommand(m_intake::rotateStop, m_intake));
   SmartDashboard.putData("Move Shooter Up", new MoveShooterUp(m_shooter));
   SmartDashboard.putData("Move Shooter Down", new MoveShooterUp(m_shooter)); 
-  SmartDashboard.putData("Start Shooter", new StartUpShooter(m_shooter));
-  SmartDashboard.putData("Stop Shooter", new StopShooter(m_shooter));
-  SmartDashboard.putData("Move Up Storage", new MoveUpStorage(m_storage));
-  SmartDashboard.putData("Stop Storage", new StopStorage(m_storage));
+  SmartDashboard.putData("Start Shooter", new InstantCommand(m_shooter::runShooter, m_shooter));
+  SmartDashboard.putData("Stop Shooter", new InstantCommand(m_shooter::stopShooter,m_shooter));
+  SmartDashboard.putData("Turn In Storage", new InstantCommand(m_storage::turnIn, m_storage));
+  SmartDashboard.putData("Stop Storage", new InstantCommand(m_storage::storageStop, m_storage));
+  SmartDashboard.putData("intake Stop", new IntakeStop(m_intake));
   
   
   
   configureButtonBindings();
-    m_drive.setDefaultCommand(new ArcadeDrive(() -> driverController.getTriggerAxis(GenericHID.Hand.kLeft),
-      () -> driverController.getTriggerAxis(GenericHID.Hand.kRight), m_drive));
+   /** m_drive.setDefaultCommand(new SplitArcadeDrive(() -> driverController.getTriggerAxis(GenericHID.Hand.kLeft),
+         () -> driverController.getTriggerAxis(GenericHID.Hand.kRight), () -> driverController.getX(GenericHID.Hand.kLeft), m_drive));**/
+     m_drive.setDefaultCommand(new TankDrive(() -> driverController.getY(GenericHID.Hand.kLeft), () -> driverController.getY(GenericHID.Hand.kRight), m_drive));
+    
 }
 
 /**
@@ -79,10 +86,13 @@ public void configureButtonBindings() {
   operatorB.whenPressed(new IntakeOut(m_intake));
   operatorX.whenPressed(new IntakeDown(m_intake));
   operatorY.whenPressed(new IntakeUp(m_intake));
+
   operatorRightBumper.whenPressed(new MoveShooterUp(m_shooter));
   oepratorLeftBumper.whenPressed(new MoveShooterDown(m_shooter));
+
   operatorStarButton.whenPressed(new MoveUpStorage(m_storage));
   operatorBaButton.whenPressed(new StopStorage(m_storage));
+
   operatorLeftStick.whenPressed(new StopShooter(m_shooter));
   operatorRightStick.whenPressed(new StartUpShooter(m_shooter));
 
