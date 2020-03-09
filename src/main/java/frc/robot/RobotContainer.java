@@ -102,6 +102,8 @@ public void configureButtonBindings() {
 }
 
 public void shuffleBoard(){
+  SmartDashboard.putBoolean("intakeInput", m_storage.isBallAtIntake());
+
 
 }
 

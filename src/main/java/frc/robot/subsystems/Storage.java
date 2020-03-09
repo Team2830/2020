@@ -21,6 +21,7 @@ public class Storage extends SubsystemBase {
   private final Spark storageRight = new Spark(StorageConstants.kStorageRight);
   private final DigitalInput intakeInput = new DigitalInput(StorageConstants.kPhotoEye1);
   private final DigitalInput shooterInput = new DigitalInput(StorageConstants.kPhotoEye2);
+  private  double m_outputCount = 0;
 
    public Storage() {
     storageLeft.setInverted(true);
@@ -62,8 +63,13 @@ public class Storage extends SubsystemBase {
     storageLeft.stopMotor();
   }
 
+  public boolean isBallAtIntake(){
+    return intakeInput.get();
+  }
+
   public void periodic(){
     SmartDashboard.putBoolean("intakeInput", intakeInput.get());
+    SmartDashboard.putNumber("CurrentCount", m_outputCount++ );
     SmartDashboard.putBoolean("shooterInput", shooterInput.get());
   }
 }
