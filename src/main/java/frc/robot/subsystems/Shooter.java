@@ -8,6 +8,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import io.github.oblarg.oblog.Loggable;
+
 import static frc.robot.Constants.ShooterConstants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -17,7 +19,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
-public class Shooter extends SubsystemBase {
+public class Shooter extends SubsystemBase implements Loggable {
   /**
    * Creates a new Shooter.
    */ 

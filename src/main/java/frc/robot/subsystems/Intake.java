@@ -8,11 +8,12 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import io.github.oblarg.oblog.Loggable;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Spark;
 import static frc.robot.Constants.IntakeConstants;
 
-public class Intake extends SubsystemBase {
+public class Intake extends SubsystemBase implements Loggable {
   /**
    * Creates a new Intake.
    */
@@ -43,7 +44,7 @@ public class Intake extends SubsystemBase {
    * This moves the motors so the ball goes into the robot at full speed
    */
   public void rotateIn() {
-    intake.set(-.6);
+    intake.set(-.45);
   }
 
   /**

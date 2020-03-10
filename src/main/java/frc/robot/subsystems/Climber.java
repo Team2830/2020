@@ -8,11 +8,13 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import io.github.oblarg.oblog.Loggable;
+
 import static frc.robot.Constants.ClimberConstants;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Spark;
 
-public class Climber extends SubsystemBase {
+public class Climber extends SubsystemBase implements Loggable {
   /**
    * Creates a new Climber.
    */

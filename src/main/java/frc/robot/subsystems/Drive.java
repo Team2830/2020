@@ -13,11 +13,13 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import io.github.oblarg.oblog.Loggable;
+
 import static frc.robot.Constants.DriveConstants;
 
 import java.util.function.DoubleSupplier;
 
-public class Drive extends SubsystemBase {
+public class Drive extends SubsystemBase implements Loggable {
   final WPI_TalonFX m_LeftMotor = new WPI_TalonFX(DriveConstants.kLeftMotorFrontPort);
   final WPI_TalonFX m_LeftFollowerMotor = new WPI_TalonFX(DriveConstants.kLeftMotorRearPort);
   final WPI_TalonFX m_RightMotor = new WPI_TalonFX(DriveConstants.kRightMotorFrontPort);
@@ -56,7 +58,19 @@ public class Drive extends SubsystemBase {
   }
 
   public void drive(double rightThrottle, double leftThrottle, double rotation) {
-    m_robotDrive.arcadeDrive(rightThrottle-leftThrottle, rotation);
+     m_robotDrive.arcadeDrive(this.Deadband(rightThrottle - leftThrottle), this.Deadband(-rotation));
+    }
+    public double Deadband(double value){
+      //Upper Deadband//
+      if (value >= +0.2)
+        return value; 
+
+      //Lower Deadband//
+      if (value <= -0.2)
+        return value;
+
+      //Outside Deadband//
+      return 0;
     }
 
   public void driveTank(double d, double e){
