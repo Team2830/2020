@@ -9,6 +9,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Config;
+import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Constants.ShooterConstants;
 
@@ -23,10 +25,12 @@ public class Shooter extends SubsystemBase implements Loggable {
   /**
    * Creates a new Shooter.
    */ 
-static VictorSPX frontFollowerMotor = new VictorSPX(ShooterConstants.kFrontFollowerMotorPort);
-static TalonSRX frontMotor = new TalonSRX(ShooterConstants.kFrontMotorPort);
-static VictorSPX backFollowerMotor = new VictorSPX(ShooterConstants.kBackFollowerMotorPort);
-static TalonSRX backMotor = new TalonSRX(ShooterConstants.kBackMotorPort);
+private static VictorSPX frontFollowerMotor = new VictorSPX(ShooterConstants.kFrontFollowerMotorPort);
+@Log.SpeedController(name="Front")
+private static TalonSRX frontMotor = new TalonSRX(ShooterConstants.kFrontMotorPort);
+private static VictorSPX backFollowerMotor = new VictorSPX(ShooterConstants.kBackFollowerMotorPort);
+@Log.SpeedController(name="Back")
+private static TalonSRX backMotor = new TalonSRX(ShooterConstants.kBackMotorPort);
 private final DoubleSolenoid shooterSolenoid = new DoubleSolenoid(ShooterConstants.kShooterSolenoid1, ShooterConstants.kShooterSolenoid2);
 
 public Shooter (){
@@ -47,6 +51,7 @@ public Shooter (){
   /**
    * This raises the shooter
    */
+  @Config
   public void up() {
     shooterSolenoid.set(DoubleSolenoid.Value.kForward);
   }
@@ -54,6 +59,7 @@ public Shooter (){
   /**
    * This lowers the shooter
    */
+  @Config
   public void down() {
     shooterSolenoid.set(DoubleSolenoid.Value.kReverse);
   }
@@ -61,6 +67,7 @@ public Shooter (){
   /**
    * This will have the motors run full speed
    **/
+  @Config
   public void runShooter() {
     frontMotor.set(ControlMode.PercentOutput, .9);
     backMotor.set(ControlMode.PercentOutput, .9);
@@ -79,6 +86,7 @@ public Shooter (){
     frontMotor.set(ControlMode.PercentOutput, 0);
     backMotor.set(ControlMode.PercentOutput, 0);
   }
+  @Config
 public void runShooter(double front, double back) {
   frontMotor.set(ControlMode.PercentOutput, front);
   backMotor.set(ControlMode.PercentOutput, back);
