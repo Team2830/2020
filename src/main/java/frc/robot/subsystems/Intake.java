@@ -44,7 +44,7 @@ public class Intake extends SubsystemBase implements Loggable {
    * This moves the motors so the ball goes into the robot at full speed
    */
   public void rotateIn() {
-    intake.set(-.6);
+    intake.set(-.45);
   }
 
   /**
