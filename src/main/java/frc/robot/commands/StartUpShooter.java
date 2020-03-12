@@ -40,7 +40,7 @@ public class StartUpShooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Shooter.runShooter(SmartDashboard.getNumber("Shooter Front", 0), SmartDashboard.getNumber("Shooter Back", 0));
+    // m_Shooter.runShooter(SmartDashboard.getNumber("Shooter Front", 0), SmartDashboard.getNumber("Shooter Back", 0));
   }
 
   // Called once the command ends or is interrupted.

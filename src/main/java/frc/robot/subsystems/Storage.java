@@ -25,9 +25,8 @@ public class Storage extends SubsystemBase implements Loggable {
   private final Spark storageLeft = new Spark(StorageConstants.kStorageLeft);
   @Log.SpeedController
   private final Spark storageRight = new Spark(StorageConstants.kStorageRight);
-  @Log.BooleanBox
+ // @Log.BooleanBox (name="Intake Photoeye")
   private final DigitalInput intakeInput = new DigitalInput(StorageConstants.kPhotoEye1);
-  @Log.BooleanBox
   private final DigitalInput shooterInput = new DigitalInput(StorageConstants.kPhotoEye2);
   private  double m_outputCount = 0;
 
@@ -78,8 +77,5 @@ public class Storage extends SubsystemBase implements Loggable {
   }
 
   public void periodic(){
-    SmartDashboard.putBoolean("intakeInput", intakeInput.get());
-    SmartDashboard.putNumber("CurrentCount", m_outputCount++ );
-    SmartDashboard.putBoolean("shooterInput", shooterInput.get());
-  }
+     }
 }
