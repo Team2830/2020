@@ -9,6 +9,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Config;
+import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Constants.StorageConstants;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -19,8 +21,11 @@ public class Storage extends SubsystemBase implements Loggable {
   /**
    * Creates a new Storage.
    */
+  @Log.SpeedController
   private final Spark storageLeft = new Spark(StorageConstants.kStorageLeft);
+  @Log.SpeedController
   private final Spark storageRight = new Spark(StorageConstants.kStorageRight);
+ // @Log.BooleanBox (name="Intake Photoeye")
   private final DigitalInput intakeInput = new DigitalInput(StorageConstants.kPhotoEye1);
   private final DigitalInput shooterInput = new DigitalInput(StorageConstants.kPhotoEye2);
   private  double m_outputCount = 0;
@@ -33,6 +38,7 @@ public class Storage extends SubsystemBase implements Loggable {
   /**
    * This moves the ball further into the storage system
    */
+  @Config
   public void turnIn(){
     storageRight.set(-1);
     storageLeft.set(-1);
@@ -41,6 +47,7 @@ public class Storage extends SubsystemBase implements Loggable {
   /**
    * This moves the ball out of the storage system
    */
+  @Config
   public void turnOut(){
     storageRight.set(1);
     storageLeft.set(1);
@@ -59,7 +66,7 @@ public class Storage extends SubsystemBase implements Loggable {
   public void ballAtIntake(){
     intakeInput.get();
   }
-
+@Config
   public void storageStop(){
     storageRight.stopMotor();
     storageLeft.stopMotor();
@@ -70,8 +77,5 @@ public class Storage extends SubsystemBase implements Loggable {
   }
 
   public void periodic(){
-    SmartDashboard.putBoolean("intakeInput", intakeInput.get());
-    SmartDashboard.putNumber("CurrentCount", m_outputCount++ );
-    SmartDashboard.putBoolean("shooterInput", shooterInput.get());
-  }
+     }
 }

@@ -9,13 +9,16 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Config;
+import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Constants.ShooterConstants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
@@ -23,10 +26,12 @@ public class Shooter extends SubsystemBase implements Loggable {
   /**
    * Creates a new Shooter.
    */ 
-static VictorSPX frontFollowerMotor = new VictorSPX(ShooterConstants.kFrontFollowerMotorPort);
-static TalonSRX frontMotor = new TalonSRX(ShooterConstants.kFrontMotorPort);
-static VictorSPX backFollowerMotor = new VictorSPX(ShooterConstants.kBackFollowerMotorPort);
-static TalonSRX backMotor = new TalonSRX(ShooterConstants.kBackMotorPort);
+private static WPI_VictorSPX frontFollowerMotor = new WPI_VictorSPX(ShooterConstants.kFrontFollowerMotorPort);
+@Log.SpeedController(name="Front")
+private static WPI_TalonSRX frontMotor = new WPI_TalonSRX(ShooterConstants.kFrontMotorPort);
+private static WPI_VictorSPX backFollowerMotor = new WPI_VictorSPX(ShooterConstants.kBackFollowerMotorPort);
+@Log.SpeedController(name="Back")
+private static WPI_TalonSRX backMotor = new WPI_TalonSRX(ShooterConstants.kBackMotorPort);
 private final DoubleSolenoid shooterSolenoid = new DoubleSolenoid(ShooterConstants.kShooterSolenoid1, ShooterConstants.kShooterSolenoid2);
 
 public Shooter (){
@@ -47,6 +52,7 @@ public Shooter (){
   /**
    * This raises the shooter
    */
+  @Config  (name = "Shooter Up")
   public void up() {
     shooterSolenoid.set(DoubleSolenoid.Value.kForward);
   }
@@ -54,6 +60,7 @@ public Shooter (){
   /**
    * This lowers the shooter
    */
+  @Config  (name = "Shooter Down")
   public void down() {
     shooterSolenoid.set(DoubleSolenoid.Value.kReverse);
   }
@@ -61,9 +68,10 @@ public Shooter (){
   /**
    * This will have the motors run full speed
    **/
+  @Config (name = "Run Shooter")
   public void runShooter() {
-    frontMotor.set(ControlMode.PercentOutput, .9);
-    backMotor.set(ControlMode.PercentOutput, .9);
+    frontMotor.set(ControlMode.PercentOutput, .5);
+    backMotor.set(ControlMode.PercentOutput, .8);
   }
 
   /**
@@ -79,6 +87,7 @@ public Shooter (){
     frontMotor.set(ControlMode.PercentOutput, 0);
     backMotor.set(ControlMode.PercentOutput, 0);
   }
+  @Config
 public void runShooter(double front, double back) {
   frontMotor.set(ControlMode.PercentOutput, front);
   backMotor.set(ControlMode.PercentOutput, back);

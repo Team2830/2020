@@ -41,7 +41,6 @@ public final class Constants {
     public static final class ClimberConstants{
         public static final int kClimberMotorLeft = 5; //pwm
         public static final int kClimberMotorRight = 8; //pwm
-        public static final int kClimberMotorSmall = 10; //? pwm
         public static final int kClimberSolenoid1 = 6;
         public static final int kClimberSolenoid2 = 7;
     }

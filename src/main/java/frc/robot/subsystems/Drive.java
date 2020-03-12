@@ -10,29 +10,30 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Config;
+import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Constants.DriveConstants;
 
 import java.util.function.DoubleSupplier;
 
 public class Drive extends SubsystemBase implements Loggable {
-  final WPI_TalonFX m_LeftMotor = new WPI_TalonFX(DriveConstants.kLeftMotorFrontPort);
-  final WPI_TalonFX m_LeftFollowerMotor = new WPI_TalonFX(DriveConstants.kLeftMotorRearPort);
-  final WPI_TalonFX m_RightMotor = new WPI_TalonFX(DriveConstants.kRightMotorFrontPort);
-  final WPI_TalonFX m_RightFollowerMotor = new WPI_TalonFX(DriveConstants.kRightMotorRearPort);
-  // final AHRS m_gyroscope = new AHRS(SPI.Port.kMXP);
+  private final WPI_TalonFX m_LeftMotor = new WPI_TalonFX(DriveConstants.kLeftMotorFrontPort);
+  private final WPI_TalonFX m_LeftFollowerMotor = new WPI_TalonFX(DriveConstants.kLeftMotorRearPort);
+  private final WPI_TalonFX m_RightMotor = new WPI_TalonFX(DriveConstants.kRightMotorFrontPort);
+  private final WPI_TalonFX m_RightFollowerMotor = new WPI_TalonFX(DriveConstants.kRightMotorRearPort);
+  @Log.Gyro
+  private final AHRS m_gyroscope = new AHRS(SPI.Port.kMXP);
 
+  @Log.DifferentialDrive
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_LeftMotor, m_RightMotor);
-
-  public void teleopInit() {
-
- 
-  }
-
 
  /**
    * Creates a new drive.
@@ -58,9 +59,9 @@ public class Drive extends SubsystemBase implements Loggable {
   }
 
   public void drive(double rightThrottle, double leftThrottle, double rotation) {
-     m_robotDrive.arcadeDrive(this.Deadband(rightThrottle - leftThrottle), this.Deadband(-rotation));
+     m_robotDrive.arcadeDrive(this.deadband(rightThrottle - leftThrottle), this.deadband(-rotation));
     }
-    public double Deadband(double value){
+    public double deadband(double value){
       //Upper Deadband//
       if (value >= +0.2)
         return value; 
@@ -81,6 +82,7 @@ public class Drive extends SubsystemBase implements Loggable {
 
   }
 
+  @Config
   public void tank(double left, double right){
     m_LeftMotor.set(left);
     m_RightMotor.set(right);
@@ -93,5 +95,14 @@ public class Drive extends SubsystemBase implements Loggable {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+@Log(name = "Left Encoder")
+  public int getLeftEncoderPosition(){
+    return m_LeftMotor.getSelectedSensorPosition();
+  }
+
+  @Log(name = "Right Encoder")
+  public int getRightEncoderPosition(){
+    return m_RightMotor.getSelectedSensorPosition();
   }
 }

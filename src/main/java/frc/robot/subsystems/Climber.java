@@ -20,7 +20,6 @@ public class Climber extends SubsystemBase implements Loggable {
    */
   static Spark climberLeft = new Spark(ClimberConstants.kClimberMotorLeft);
   static Spark climberRight = new Spark(ClimberConstants.kClimberMotorRight);
-  static Spark climberSmall = new Spark(ClimberConstants.kClimberMotorSmall);
   private final DoubleSolenoid climberSolenoid = new DoubleSolenoid(ClimberConstants.kClimberSolenoid1, ClimberConstants.kClimberSolenoid2);
 
   public Climber() {
