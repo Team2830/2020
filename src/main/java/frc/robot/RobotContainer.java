@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.SplitArcadeDrive;
+import frc.robot.commands.AdvanceStorageToShooter;
 import frc.robot.commands.Autonomous;
 import frc.robot.commands.IntakeDown;
 import frc.robot.commands.IntakeIn;
@@ -17,6 +19,7 @@ import frc.robot.commands.IntakeUp;
 import frc.robot.commands.MoveShooterDown;
 import frc.robot.commands.MoveShooterUp;
 import frc.robot.commands.MoveUpStorage;
+import frc.robot.commands.RunStorageWithPhotoeyes;
 import frc.robot.commands.SplitArcadeDrive;
 import frc.robot.commands.StartUpShooter;
 import frc.robot.commands.StopShooter;
@@ -40,6 +43,8 @@ public class RobotContainer {
   private final CommandBase m_autonomousCommand = new Autonomous(m_drive).withTimeout(5);
 
 public RobotContainer() {
+
+  SmartDashboard.putData("AdvanceStorageToShooter", new AdvanceStorageToShooter(m_storage));
   // SmartDashboard.putNumber("Shooter Front", 0);
   // SmartDashboard.putNumber("Shooter Back", 0);
    Shuffleboard.getTab("Intake").add("intake In", new InstantCommand(m_intake::rotateIn, m_intake));
@@ -54,13 +59,13 @@ public RobotContainer() {
   Shuffleboard.getTab("Shooter").add("Stop Shooter", new InstantCommand(m_shooter::stopShooter,m_shooter));
   Shuffleboard.getTab("Storage").add("Turn In Storage", new InstantCommand(m_storage::turnIn, m_storage));
   Shuffleboard.getTab("Storage").add("Stop Storage", new InstantCommand(m_storage::storageStop, m_storage));  
-  
+
   
   configureButtonBindings();
     m_drive.setDefaultCommand(new SplitArcadeDrive(() -> driverController.getTriggerAxis(GenericHID.Hand.kLeft),
          () -> driverController.getTriggerAxis(GenericHID.Hand.kRight), () -> driverController.getX(GenericHID.Hand.kLeft), m_drive));
     //m_drive.setDefaultCommand(new TankDrive(() -> driverController.getY(GenericHID.Hand.kLeft), () -> driverController.getY(GenericHID.Hand.kRight), m_drive));
-    
+    m_storage.setDefaultCommand(new RunStorageWithPhotoeyes(m_storage));
 }
 
 /**
@@ -78,12 +83,10 @@ public void configureButtonBindings() {
   final JoystickButton operatorBaButton = new JoystickButton(operatorController, XboxController.Button.kBack.value);
   final JoystickButton operatorLeftStick = new JoystickButton(operatorController, XboxController.Button.kStickLeft.value);
   final JoystickButton operatorRightStick = new JoystickButton(operatorController, XboxController.Button.kStickRight.value);
-
   operatorA.whenPressed(new InstantCommand(m_intake::rotateIn, m_intake));
   operatorB.whenPressed(new InstantCommand(m_intake::rotateOut, m_intake));
   operatorX.whenPressed(new InstantCommand(m_intake::rotateStop, m_intake));
   operatorX.whenReleased(new InstantCommand(m_intake::rotateStop, m_intake));
-
 
   operatorRightBumper.whenPressed(new InstantCommand(m_intake::moveUp, m_intake));
   oepratorLeftBumper.whenPressed(new InstantCommand(m_intake::moveDown, m_intake));

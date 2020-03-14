@@ -13,7 +13,8 @@ import io.github.oblarg.oblog.annotations.Config;
 import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Constants.StorageConstants;
-import edu.wpi.first.wpilibj.DigitalInput;
+
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -25,14 +26,14 @@ public class Storage extends SubsystemBase implements Loggable {
   private final Spark storageLeft = new Spark(StorageConstants.kStorageLeft);
   @Log.SpeedController
   private final Spark storageRight = new Spark(StorageConstants.kStorageRight);
- // @Log.BooleanBox (name="Intake Photoeye")
-  private final DigitalInput intakeInput = new DigitalInput(StorageConstants.kPhotoEye1);
-  private final DigitalInput shooterInput = new DigitalInput(StorageConstants.kPhotoEye2);
+  private final AnalogInput intakeInput = new AnalogInput(StorageConstants.kPhotoEye1);
+  private final AnalogInput shooterInput = new AnalogInput(StorageConstants.kPhotoEye2);
   private  double m_outputCount = 0;
 
    public Storage() {
     storageLeft.setInverted(true);
     storageRight.setInverted(true);
+    AnalogInput.setGlobalSampleRate(50);
   }
 
   /**
@@ -56,15 +57,8 @@ public class Storage extends SubsystemBase implements Loggable {
   /**
    * This is for PhotoEyes to know where the ball is to make sure that we can shoot the ball
    */
-  public void ballAtShooter(){
-    shooterInput.get();
-  }
-
-  /**
-   * This is for PhotoEyes to know where the ball is so we can continue moving the ball into the storage system
-   */
-  public void ballAtIntake(){
-    intakeInput.get();
+  public boolean isBallAtShooter(){
+    return shooterInput.getVoltage()<.55;
   }
 @Config
   public void storageStop(){
@@ -73,9 +67,14 @@ public class Storage extends SubsystemBase implements Loggable {
   }
 
   public boolean isBallAtIntake(){
-    return intakeInput.get();
+    return intakeInput.getVoltage()<.55;
   }
 
   public void periodic(){
-     }
+    SmartDashboard.putData(intakeInput);
+    SmartDashboard.putNumber("intakeInputValue", intakeInput.getValue());
+    SmartDashboard.putNumber("intakeInputVoltage", intakeInput.getVoltage());
+    SmartDashboard.putBoolean("isBallAtIntake", isBallAtIntake());
+    SmartDashboard.putNumber("CurrentCount", m_outputCount++ );
+  }
 }
