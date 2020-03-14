@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.SplitArcadeDrive;
+import frc.robot.commands.AdvanceStorageToShooter;
 import frc.robot.commands.Autonomous;
 import frc.robot.commands.IntakeDown;
 import frc.robot.commands.IntakeIn;
@@ -21,6 +22,7 @@ import frc.robot.commands.IntakeUp;
 import frc.robot.commands.MoveShooterDown;
 import frc.robot.commands.MoveShooterUp;
 import frc.robot.commands.MoveUpStorage;
+import frc.robot.commands.RunStorageWithPhotoeyes;
 import frc.robot.commands.StartUpShooter;
 import frc.robot.commands.StopShooter;
 import frc.robot.commands.StopStorage;
@@ -59,6 +61,7 @@ public RobotContainer() {
   SmartDashboard.putData("Turn In Storage", new InstantCommand(m_storage::turnIn, m_storage));
   SmartDashboard.putData("Stop Storage", new InstantCommand(m_storage::storageStop, m_storage));
   SmartDashboard.putData("intake Stop", new IntakeStop(m_intake));
+  SmartDashboard.putData("AdvanceStorageToShooter", new AdvanceStorageToShooter(m_storage));
   
   
   
@@ -66,7 +69,7 @@ public RobotContainer() {
     m_drive.setDefaultCommand(new SplitArcadeDrive(() -> driverController.getTriggerAxis(GenericHID.Hand.kLeft),
          () -> driverController.getTriggerAxis(GenericHID.Hand.kRight), () -> driverController.getX(GenericHID.Hand.kLeft), m_drive));
     //m_drive.setDefaultCommand(new TankDrive(() -> driverController.getY(GenericHID.Hand.kLeft), () -> driverController.getY(GenericHID.Hand.kRight), m_drive));
-    
+    m_storage.setDefaultCommand(new RunStorageWithPhotoeyes(m_storage));
 }
 
 /**
@@ -83,8 +86,8 @@ public void configureButtonBindings() {
   final JoystickButton operatorStarButton = new JoystickButton(operatorController, XboxController.Button.kStart.value);
   final JoystickButton operatorBaButton = new JoystickButton(operatorController, XboxController.Button.kBack.value);
   final JoystickButton operatorLeftStick = new JoystickButton(operatorController, XboxController.Button.kStickLeft.value);
-  final JoystickButton operatorRightStick = new JoystickButton(operatorController, XboxController.Button.kStickRight.value);
-
+ // final JoystickButton operatorLeftTrigger = new operatorController.getTriggerAxis(GenericHID.Hand.kLeft));
+  
   operatorA.whenPressed(new IntakeIn(m_intake));
   operatorB.whenPressed(new IntakeOut(m_intake));
   operatorX.whenPressed(new IntakeDown(m_intake));

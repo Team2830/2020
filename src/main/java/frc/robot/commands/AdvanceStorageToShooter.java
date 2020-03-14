@@ -10,15 +10,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Storage;
 
-public class MoveUpStorage extends CommandBase {
-  private final Storage m_Storage;
+public class AdvanceStorageToShooter extends CommandBase {  
+  private final Storage m_storage;
   /**
-   * Creates a new MoveUpStorage.
+   * Creates a new AdvanceToShooter.
    */
-  public MoveUpStorage(final Storage storage) {
-    m_Storage = storage;
+  public AdvanceStorageToShooter(Storage storage) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_Storage);
+    m_storage = storage;
+    addRequirements(storage);
   }
 
   // Called when the command is initially scheduled.
@@ -29,14 +29,17 @@ public class MoveUpStorage extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //m_Storage.isBallAtIntake();
-    m_Storage.turnIn();
+    if(m_storage.isBallAtShooter()){
+      m_storage.storageStop();
+    }else{
+      m_storage.turnIn();
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(final boolean interrupted) {
-    m_Storage.storageStop();
+  public void end(boolean interrupted) {
+    m_storage.storageStop();
   }
 
   // Returns true when the command should end.

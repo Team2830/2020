@@ -30,7 +30,7 @@ public class MoveUpStorage1 extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Storage.ballAtIntake();
+    //m_Storage.ballAtIntake();
     m_Storage.turnIn();
   }
 
