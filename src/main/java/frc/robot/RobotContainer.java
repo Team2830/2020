@@ -20,6 +20,7 @@ import frc.robot.commands.MoveShooterDown;
 import frc.robot.commands.MoveShooterUp;
 import frc.robot.commands.MoveUpStorage;
 import frc.robot.commands.RunStorageWithPhotoeyes;
+import frc.robot.commands.ShooterShoot;
 import frc.robot.commands.SplitArcadeDrive;
 import frc.robot.commands.StartUpShooter;
 import frc.robot.commands.StopShooter;
@@ -44,7 +45,7 @@ public class RobotContainer {
 
 public RobotContainer() {
 
-  SmartDashboard.putData("AdvanceStorageToShooter", new AdvanceStorageToShooter(m_storage));
+  Shuffleboard.getTab("Shooter").add("AdvanceStorageToShooter", new AdvanceStorageToShooter(m_storage));
   // SmartDashboard.putNumber("Shooter Front", 0);
   // SmartDashboard.putNumber("Shooter Back", 0);
    Shuffleboard.getTab("Intake").add("intake In", new InstantCommand(m_intake::rotateIn, m_intake));
@@ -57,7 +58,9 @@ public RobotContainer() {
   //Shuffleboard.getTab("").add("Start Shooter", new InstantCommand(m_shooter::runShooter, m_shooter));
  // Shuffleboard.getTab("Shooter").add("Start Shooter", new StartUpShooter(Shuffleboard.getTab("Shooter").add("Front", 0).getEntry().getDouble(0), Shuffleboard.getTab("Shooter").add("Back", 0).getEntry().getDouble(0), m_shooter));
   Shuffleboard.getTab("Shooter").add("Stop Shooter", new InstantCommand(m_shooter::stopShooter,m_shooter));
+  Shuffleboard.getTab("Shooter").add("SHOOT!!!", new ShooterShoot(m_shooter,m_storage));
   Shuffleboard.getTab("Storage").add("Turn In Storage", new InstantCommand(m_storage::turnIn, m_storage));
+  Shuffleboard.getTab("Storage").add("Turn Out Storage", new InstantCommand(m_storage::turnOut, m_storage));
   Shuffleboard.getTab("Storage").add("Stop Storage", new InstantCommand(m_storage::storageStop, m_storage));  
 
   
@@ -77,9 +80,10 @@ public void configureButtonBindings() {
   final JoystickButton operatorB = new JoystickButton(operatorController, XboxController.Button.kB.value);
   final JoystickButton operatorX = new JoystickButton(operatorController, XboxController.Button.kX.value);
   final JoystickButton operatorY = new JoystickButton(operatorController, XboxController.Button.kY.value);
+  final JoystickButton driverA = new JoystickButton(driverController, XboxController.Button.kA.value);
   final JoystickButton operatorRightBumper = new JoystickButton(operatorController, XboxController.Button.kBumperRight.value);
   final JoystickButton oepratorLeftBumper = new JoystickButton(operatorController, XboxController.Button.kBumperLeft.value);
-  final JoystickButton operatorStarButton = new JoystickButton(operatorController, XboxController.Button.kStart.value);
+  final JoystickButton operatorStartButton = new JoystickButton(operatorController, XboxController.Button.kStart.value);
   final JoystickButton operatorBaButton = new JoystickButton(operatorController, XboxController.Button.kBack.value);
   final JoystickButton operatorLeftStick = new JoystickButton(operatorController, XboxController.Button.kStickLeft.value);
   final JoystickButton operatorRightStick = new JoystickButton(operatorController, XboxController.Button.kStickRight.value);
@@ -91,11 +95,13 @@ public void configureButtonBindings() {
   operatorRightBumper.whenPressed(new InstantCommand(m_intake::moveUp, m_intake));
   oepratorLeftBumper.whenPressed(new InstantCommand(m_intake::moveDown, m_intake));
 
-  operatorStarButton.whenPressed(new InstantCommand(m_storage::turnIn));
-  operatorStarButton.whenReleased(new InstantCommand(m_storage::storageStop));
+  operatorStartButton.whenPressed(new InstantCommand(m_storage::turnIn));
+  operatorStartButton.whenReleased(new InstantCommand(m_storage::storageStop));
 
   operatorLeftStick.whenPressed(new InstantCommand(m_shooter::stopShooter));
   operatorRightStick.whenPressed(new InstantCommand(m_shooter::runShooter));
+
+  driverA.whenHeld(new ShooterShoot(m_shooter,m_storage),true);
 
 }
 
