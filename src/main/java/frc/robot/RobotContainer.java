@@ -1,15 +1,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.SplitArcadeDrive;
 import frc.robot.commands.AdvanceStorageToShooter;
@@ -23,10 +20,10 @@ import frc.robot.commands.MoveShooterDown;
 import frc.robot.commands.MoveShooterUp;
 import frc.robot.commands.MoveUpStorage;
 import frc.robot.commands.RunStorageWithPhotoeyes;
+import frc.robot.commands.SplitArcadeDrive;
 import frc.robot.commands.StartUpShooter;
 import frc.robot.commands.StopShooter;
 import frc.robot.commands.StopStorage;
-import frc.robot.commands.TankDrive;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Intake;
@@ -46,24 +43,23 @@ public class RobotContainer {
   private final CommandBase m_autonomousCommand = new Autonomous(m_drive).withTimeout(5);
 
 public RobotContainer() {
-  SmartDashboard.putNumber("Shooter Front", 0);
-  SmartDashboard.putNumber("Shooter Back", 0);
-  SmartDashboard.putData("intake In", new InstantCommand(m_intake::rotateIn, m_intake));
-  SmartDashboard.putData("intake Out", new InstantCommand(m_intake::rotateOut, m_intake));
-  SmartDashboard.putData("intake Up", new InstantCommand(m_intake::moveUp, m_intake));
-  SmartDashboard.putData("intake Down", new InstantCommand(m_intake::moveDown, m_intake));
-  SmartDashboard.putData("intake Stop", new InstantCommand(m_intake::rotateStop, m_intake));
-  SmartDashboard.putData("Move Shooter Up", new MoveShooterUp(m_shooter));
-  SmartDashboard.putData("Move Shooter Down", new MoveShooterDown(m_shooter)); 
-  //SmartDashboard.putData("Start Shooter", new InstantCommand(m_shooter::runShooter, m_shooter));
-  SmartDashboard.putData("Start Shooter", new StartUpShooter(SmartDashboard.getNumber("Shooter Front", 0), SmartDashboard.getNumber("Shooter Back", 0), m_shooter));
-  SmartDashboard.putData("Stop Shooter", new InstantCommand(m_shooter::stopShooter,m_shooter));
-  SmartDashboard.putData("Turn In Storage", new InstantCommand(m_storage::turnIn, m_storage));
-  SmartDashboard.putData("Stop Storage", new InstantCommand(m_storage::storageStop, m_storage));
-  SmartDashboard.putData("intake Stop", new IntakeStop(m_intake));
+
   SmartDashboard.putData("AdvanceStorageToShooter", new AdvanceStorageToShooter(m_storage));
-  
-  
+  // SmartDashboard.putNumber("Shooter Front", 0);
+  // SmartDashboard.putNumber("Shooter Back", 0);
+   Shuffleboard.getTab("Intake").add("intake In", new InstantCommand(m_intake::rotateIn, m_intake));
+   Shuffleboard.getTab("Intake").add("intake Out", new InstantCommand(m_intake::rotateOut, m_intake));
+   Shuffleboard.getTab("Intake").add("intake Up", new InstantCommand(m_intake::moveUp, m_intake));
+   Shuffleboard.getTab("Intake").add("intake Down", new InstantCommand(m_intake::moveDown, m_intake));
+   Shuffleboard.getTab("Intake").add("intake Stop", new InstantCommand(m_intake::rotateStop, m_intake));
+  Shuffleboard.getTab("Shooter").add("Move Shooter Up", new MoveShooterUp(m_shooter));
+  Shuffleboard.getTab("Shooter").add("Move Shooter Down", new MoveShooterDown(m_shooter)); 
+  //Shuffleboard.getTab("").add("Start Shooter", new InstantCommand(m_shooter::runShooter, m_shooter));
+ // Shuffleboard.getTab("Shooter").add("Start Shooter", new StartUpShooter(Shuffleboard.getTab("Shooter").add("Front", 0).getEntry().getDouble(0), Shuffleboard.getTab("Shooter").add("Back", 0).getEntry().getDouble(0), m_shooter));
+  Shuffleboard.getTab("Shooter").add("Stop Shooter", new InstantCommand(m_shooter::stopShooter,m_shooter));
+  Shuffleboard.getTab("Storage").add("Turn In Storage", new InstantCommand(m_storage::turnIn, m_storage));
+  Shuffleboard.getTab("Storage").add("Stop Storage", new InstantCommand(m_storage::storageStop, m_storage));  
+
   
   configureButtonBindings();
     m_drive.setDefaultCommand(new SplitArcadeDrive(() -> driverController.getTriggerAxis(GenericHID.Hand.kLeft),
@@ -86,26 +82,25 @@ public void configureButtonBindings() {
   final JoystickButton operatorStarButton = new JoystickButton(operatorController, XboxController.Button.kStart.value);
   final JoystickButton operatorBaButton = new JoystickButton(operatorController, XboxController.Button.kBack.value);
   final JoystickButton operatorLeftStick = new JoystickButton(operatorController, XboxController.Button.kStickLeft.value);
- // final JoystickButton operatorLeftTrigger = new operatorController.getTriggerAxis(GenericHID.Hand.kLeft));
-  
-  operatorA.whenPressed(new IntakeIn(m_intake));
-  operatorB.whenPressed(new IntakeOut(m_intake));
-  operatorX.whenPressed(new IntakeDown(m_intake));
-  operatorY.whenPressed(new IntakeUp(m_intake));
+  final JoystickButton operatorRightStick = new JoystickButton(operatorController, XboxController.Button.kStickRight.value);
+  operatorA.whenPressed(new InstantCommand(m_intake::rotateIn, m_intake));
+  operatorB.whenPressed(new InstantCommand(m_intake::rotateOut, m_intake));
+  operatorX.whenPressed(new InstantCommand(m_intake::rotateStop, m_intake));
+  operatorX.whenReleased(new InstantCommand(m_intake::rotateStop, m_intake));
 
-  operatorRightBumper.whenPressed(new MoveShooterUp(m_shooter));
-  oepratorLeftBumper.whenPressed(new MoveShooterDown(m_shooter));
+  operatorRightBumper.whenPressed(new InstantCommand(m_intake::moveUp, m_intake));
+  oepratorLeftBumper.whenPressed(new InstantCommand(m_intake::moveDown, m_intake));
 
-  operatorStarButton.whenPressed(new MoveUpStorage(m_storage));
-  operatorBaButton.whenPressed(new StopStorage(m_storage));
+  operatorStarButton.whenPressed(new InstantCommand(m_storage::turnIn));
+  operatorStarButton.whenReleased(new InstantCommand(m_storage::storageStop));
 
-  operatorLeftStick.whenPressed(new StopShooter(m_shooter));
- //operatorRightStick.whenPressed(new StartUpShooter(m_shooter));
+  operatorLeftStick.whenPressed(new InstantCommand(m_shooter::stopShooter));
+  operatorRightStick.whenPressed(new InstantCommand(m_shooter::runShooter));
 
 }
 
 public void shuffleBoard(){
-  SmartDashboard.putBoolean("intakeInput", m_storage.isBallAtIntake());
+//SmartDashboard.putBoolean("intakeInput", m_storage.isBallAtIntake());
 
 
 }
