@@ -97,12 +97,12 @@ public class Drive extends SubsystemBase implements Loggable {
     // This method will be called once per scheduler run
   }
 @Log(name = "Left Encoder")
-  public int getLeftEncoderPosition(){
+  public Double getLeftEncoderPosition(){
     return m_LeftMotor.getSelectedSensorPosition();
   }
 
   @Log(name = "Right Encoder")
-  public int getRightEncoderPosition(){
+  public Double getRightEncoderPosition(){
     return m_RightMotor.getSelectedSensorPosition();
   }
 }
