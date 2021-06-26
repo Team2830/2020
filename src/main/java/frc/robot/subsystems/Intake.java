@@ -15,17 +15,21 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Spark;
 import static frc.robot.Constants.IntakeConstants;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 public class Intake extends SubsystemBase implements Loggable {
   /**
    * Creates a new Intake.
    */
   @Log.SpeedController
-  private final Spark intake = new Spark(IntakeConstants.kIntakeMotor);
-
+  // private final Spark intake = new Spark(IntakeConstants.kIntakeMotor);
+  private final WPI_TalonFX intake = new WPI_TalonFX(IntakeConstants.kIntakeMotor);
   private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(IntakeConstants.kIntakeSolenoid1, IntakeConstants.kIntakeSolenooid2);
 
    public Intake() {
      intake.setInverted(true);
+     intake.configOpenloopRamp(0.5);
+
   }
 
   /**
@@ -50,7 +54,7 @@ public class Intake extends SubsystemBase implements Loggable {
    * This moves the motors so the ball goes into the robot at full speed
    */
   public void rotateIn() {
-    intake.set(-.45);
+    intake.set(-.2);
   }
 
   /**
@@ -65,7 +69,7 @@ public class Intake extends SubsystemBase implements Loggable {
    * This moves the motors so the ball goes out of the robot at full speed
    */
   public void rotateOut() {
-    intake.set(.6);
+    intake.set(.4);
   }
 
   /**

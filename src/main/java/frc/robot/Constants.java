@@ -32,16 +32,16 @@ public final class Constants {
     }
     public static final class ShooterConstants{
         public static final int kFrontFollowerMotorPort = 0; //
-        public static final int kFrontMotorPort = 1; //
+        public static final int kFrontMotorPort = 1; // we think 7
         public static final int kBackFollowerMotorPort = 2; //
         public static final int kBackMotorPort = 3; //
         public static final int kShooterSolenoid1 = 4;
         public static final int kShooterSolenoid2 = 1;
     }
     public static final class ClimberConstants{
-        public static final int kClimberMotorLeft = 5; //pwm
-        public static final int kClimberMotorRight = 8; //pwm
-        public static final int kClimberSolenoid1 = 6;
-        public static final int kClimberSolenoid2 = 7;
+        public static final int kClimberMotorLeft = 8; //pwm
+        public static final int kClimberMotorRight = 9; //pwm
+        public static final int kClimberSolenoid1 = 5;
+        public static final int kClimberSolenoid2 = 2;
     }
 }

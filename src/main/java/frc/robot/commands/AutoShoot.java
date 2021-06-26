@@ -1,9 +1,6 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
 
@@ -11,13 +8,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Storage;
 
-public class ShooterShoot extends CommandBase {
+public class AutoShoot extends CommandBase {
   private final Shooter m_Shooter;
   private final Storage m_storage;
-  /**
-   * Creates a new ShooterShoot.
-   */
-  public ShooterShoot(Shooter shooter, Storage storage) {
+  
+  /** Creates a new AutoShoot. */
+  public AutoShoot(Shooter shooter, Storage storage) {
     m_Shooter = shooter;
     m_storage = storage;
  
@@ -29,13 +25,13 @@ public class ShooterShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Shooter.runShooter();
+    m_Shooter.runShooter(.45,.75);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Shooter.runShooter();
+    m_Shooter.runShooter(.45,.75);
     m_storage.turnIn();
   }
 

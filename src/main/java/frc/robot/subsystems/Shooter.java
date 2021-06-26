@@ -78,18 +78,14 @@ public Shooter (){
    * This will have the motors run at a specific speed
    * @param speed
    */
-  public void runShooter(Double speed){
-    frontMotor.set(ControlMode.PercentOutput, speed);
-   // backMotor.set(ControlMode.PercentOutput, speed);
+  public void runShooter(double frontSpeed, double backSpeed ){
+    frontMotor.set(ControlMode.PercentOutput, frontSpeed);
+    backMotor.set(ControlMode.PercentOutput, backSpeed);
   }
 
   public void stopShooter(){
     frontMotor.set(ControlMode.PercentOutput, 0);
     backMotor.set(ControlMode.PercentOutput, 0);
   }
-  @Config
-public void runShooter(double front, double back) {
-  frontMotor.set(ControlMode.PercentOutput, front);
-  backMotor.set(ControlMode.PercentOutput, back);
-}
+
 }

@@ -24,12 +24,14 @@ public class Climber extends SubsystemBase implements Loggable {
 
   public Climber() {
 
-}
+  }
 /**
  * This elongates the elevator to hook onto the bar
  */
 public void extend() {
   climberSolenoid.set(DoubleSolenoid.Value.kForward);
+  climberLeft.set(1);
+  climberRight.set(1);
   }
   
   /**
@@ -37,5 +39,12 @@ public void extend() {
    */
   public void unextend() {
     climberSolenoid.set(DoubleSolenoid.Value.kReverse);
+    climberLeft.set(-1);
+    climberRight.set(-1);
+  }
+
+  public void stop() {
+    climberLeft.set(0);
+    climberRight.set(0);
   }
 }

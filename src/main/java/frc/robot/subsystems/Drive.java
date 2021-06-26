@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
@@ -55,6 +56,12 @@ public class Drive extends SubsystemBase implements Loggable {
     m_LeftFollowerMotor.setInverted(InvertType.FollowMaster);
 
     m_robotDrive.setRightSideInverted(false);
+    
+    m_RightMotor.configOpenloopRamp(0.25);
+    m_LeftMotor.configOpenloopRamp(0.25);
+     
+    m_RightMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true,30, 35, 1.0));
+    m_RightMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true,30, 35, 1.0));
   
   }
 
@@ -75,7 +82,7 @@ public class Drive extends SubsystemBase implements Loggable {
     }
 
   public void driveTank(double d, double e){
-    m_robotDrive.tankDrive(d, e);
+    m_robotDrive.tankDrive(-d, -e);
   }
 
   public void vision() {
@@ -88,6 +95,30 @@ public class Drive extends SubsystemBase implements Loggable {
     m_RightMotor.set(right);
   }
   
+  	/**
+	 * Checks the gyro against setAngle.
+	 * 
+	 * If the difference (gyro angle - set angle) is greater than 1, 
+	 * turn the robot slightly to the left.
+	 * 
+	 * If the difference (gyro angle - set angle) is less than -1,
+	 * turn the robot slightly to the right.
+	 * 
+	 * @param presetAngle The preset angle
+	 * @param throttle The default driving speed
+	 */
+	public void driveCorrection(double presetAngle, double throttle){
+		if (m_gyroscope.getAngle()-presetAngle > 1){
+			m_LeftMotor.set(throttle*.60);
+			m_RightMotor.set(throttle);
+		}else if(m_gyroscope.getAngle()-presetAngle<-1){
+			m_LeftMotor.set(throttle);
+			m_RightMotor.set(throttle*.60);
+		}else{
+			m_LeftMotor.set(throttle);
+			m_RightMotor.set(throttle);
+		}
+	}
   public void stopDrive(){
     this.tank(0, 0);
   }
@@ -104,5 +135,9 @@ public class Drive extends SubsystemBase implements Loggable {
   @Log(name = "Right Encoder")
   public Double getRightEncoderPosition(){
     return m_RightMotor.getSelectedSensorPosition();
+  }
+  @Log(name = "Gyro")
+  public double getAngle() {
+    return m_gyroscope.getAngle();
   }
 }

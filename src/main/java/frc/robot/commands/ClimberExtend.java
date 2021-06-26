@@ -32,6 +32,7 @@ public class ClimberExtend extends CommandBase {
   @Override
   public void execute() {
 
+    m_Climber.extend();
   }
 
   // Called once the command ends or is interrupted.
