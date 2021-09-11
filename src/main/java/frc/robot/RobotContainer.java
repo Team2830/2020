@@ -81,27 +81,28 @@ public void configureButtonBindings() {
   final JoystickButton operatorX = new JoystickButton(operatorController, XboxController.Button.kX.value);
   final JoystickButton operatorY = new JoystickButton(operatorController, XboxController.Button.kY.value);
   final JoystickButton driverA = new JoystickButton(driverController, XboxController.Button.kA.value);
+  final JoystickButton driverB = new JoystickButton(driverController, XboxController.Button.kB.value);
+  final JoystickButton driverX = new JoystickButton(driverController, XboxController.Button.kX.value);
+  final JoystickButton driverY = new JoystickButton(driverController, XboxController.Button.kY.value);
   final JoystickButton operatorRightBumper = new JoystickButton(operatorController, XboxController.Button.kBumperRight.value);
   final JoystickButton oepratorLeftBumper = new JoystickButton(operatorController, XboxController.Button.kBumperLeft.value);
   final JoystickButton operatorStartButton = new JoystickButton(operatorController, XboxController.Button.kStart.value);
   final JoystickButton operatorBaButton = new JoystickButton(operatorController, XboxController.Button.kBack.value);
   final JoystickButton operatorLeftStick = new JoystickButton(operatorController, XboxController.Button.kStickLeft.value);
   final JoystickButton operatorRightStick = new JoystickButton(operatorController, XboxController.Button.kStickRight.value);
-  operatorA.whenPressed(new InstantCommand(m_intake::rotateIn, m_intake));
-  operatorB.whenPressed(new InstantCommand(m_intake::rotateOut, m_intake));
-  operatorX.whenPressed(new InstantCommand(m_intake::rotateStop, m_intake));
-  operatorX.whenReleased(new InstantCommand(m_intake::rotateStop, m_intake));
+ // driverA.whenPressed(new InstantCommand(m_intake::rotateIn, m_intake));
+  //driverB.whenPressed(new InstantCommand(m_intake::rotateStop, m_intake));
+ // operatorX.whenPressed(new InstantCommand(m_intake::rotateStop, m_intake));
+  //operatorX.whenReleased(new InstantCommand(m_intake::rotateStop, m_intake));
 
-  operatorRightBumper.whenPressed(new InstantCommand(m_intake::moveUp, m_intake));
-  oepratorLeftBumper.whenPressed(new InstantCommand(m_intake::moveDown, m_intake));
+ // operatorRightBumper.whenPressed(new InstantCommand(m_intake::moveUp, m_intake));
+  //oepratorLeftBumper.whenPressed(new InstantCommand(m_intake::moveDown, m_intake));
 
-  operatorStartButton.whenPressed(new InstantCommand(m_storage::turnIn));
-  operatorStartButton.whenReleased(new InstantCommand(m_storage::storageStop));
+  //operatorStartButton.whenPressed(new InstantCommand(m_storage::turnIn));
+  //operatorStartButton.whenReleased(new InstantCommand(m_storage::storageStop));
 
-  operatorLeftStick.whenPressed(new InstantCommand(m_shooter::stopShooter));
-  operatorRightStick.whenPressed(new InstantCommand(m_shooter::runShooter));
-
-  driverA.whenHeld(new ShooterShoot(m_shooter,m_storage),true);
+  driverY.whenPressed(new InstantCommand(m_shooter::stopShooter));
+  driverX.whenHeld(new ShooterShoot(m_shooter,m_storage),true);
 
 }
 

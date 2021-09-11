@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
@@ -55,11 +56,22 @@ public class Drive extends SubsystemBase implements Loggable {
     m_LeftFollowerMotor.setInverted(InvertType.FollowMaster);
 
     m_robotDrive.setRightSideInverted(false);
-  
+    m_RightMotor.setNeutralMode(NeutralMode.Brake);
+    m_RightFollowerMotor.setNeutralMode(NeutralMode.Brake);
+    m_LeftMotor.setNeutralMode(NeutralMode.Brake);
+    m_LeftFollowerMotor.setNeutralMode(NeutralMode.Brake);
+    m_RightMotor.configOpenloopRamp(.5);
+    m_RightFollowerMotor.configOpenloopRamp(.5);
+    m_LeftMotor.configOpenloopRamp(.5);
+    m_LeftFollowerMotor.configOpenloopRamp(.5);
+  //  m_RightMotor.configPeakOutputForward(.5);
+  //  m_LeftMotor.configPeakOutputForward(.5);
+  //  m_RightMotor.configPeakOutputReverse(.5, 0);
+  //  m_LeftMotor.configPeakOutputReverse(.5, 0);
   }
 
   public void drive(double rightThrottle, double leftThrottle, double rotation) {
-     m_robotDrive.arcadeDrive(this.deadband(rightThrottle - leftThrottle), this.deadband(-rotation));
+     m_robotDrive.arcadeDrive(this.deadband((rightThrottle - leftThrottle)*.5), this.deadband(-rotation*.5));
     }
     public double deadband(double value){
       //Upper Deadband//
